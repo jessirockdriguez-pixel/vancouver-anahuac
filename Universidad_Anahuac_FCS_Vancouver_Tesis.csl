@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl"
+       version="1.0"
+       class="in-text"
+       default-locale="es-ES"
+       page-range-format="minimal">
+  <info>
+    <title>Universidad Anáhuac México - FCS - Vancouver (Tesis)</title>
+    <id>http://www.zotero.org/styles/universidad-anahuac-mexico-fcs-vancouver-tesis</id>
+    <link href="http://www.zotero.org/styles/universidad-anahuac-mexico-fcs-vancouver-tesis" rel="self"/>
+    <category citation-format="numeric"/>
+    <category field="medicine"/>
+    <summary>Estilo Vancouver personalizado conforme al Formato de elaboración de Tesis de Maestría y Doctorado de la Facultad de Ciencias de la Salud, Universidad Anáhuac México.</summary>
+    <updated>2026-09-10T00:00:00+00:00</updated>
+    <rights license="http://creativecommons.org/licenses/by-sa/3.0/">Este estilo puede modificarse y compartirse.</rights>
+  </info>
+
+  <locale xml:lang="es">
+    <terms>
+      <term name="and">y</term>
+      <term name="et-al">et al.</term>
+      <term name="available at">Disponible en:</term>
+      <term name="accessed">citado</term>
+    </terms>
+  </locale>
+
+  <macro name="author">
+    <names variable="author">
+      <name form="long"
+            name-as-sort-order="all"
+            sort-separator=" "
+            initialize-with=""
+            delimiter=", "
+            and="text"
+            delimiter-precedes-last="never"
+            et-al-min="7"
+            et-al-use-first="6"/>
+      <substitute>
+        <names variable="editor"/>
+        <names variable="translator"/>
+        <text variable="publisher"/>
+        <text variable="title"/>
+      </substitute>
+    </names>
+  </macro>
+
+  <macro name="editor">
+    <names variable="editor">
+      <name form="long"
+            name-as-sort-order="all"
+            sort-separator=" "
+            initialize-with=""
+            delimiter=", "
+            and="text"
+            delimiter-precedes-last="never"
+            et-al-min="7"
+            et-al-use-first="6"/>
+      <label form="short" prefix=", "/>
+    </names>
+  </macro>
+
+  <macro name="issued-year-month">
+    <date variable="issued">
+      <date-part name="year"/>
+      <date-part name="month" form="short" prefix=" "/>
+    </date>
+  </macro>
+
+  <macro name="issued-year">
+    <date variable="issued">
+      <date-part name="year"/>
+    </date>
+  </macro>
+
+  <macro name="accessed">
+    <date variable="accessed">
+      <date-part name="year"/>
+      <date-part name="month" form="short" prefix=" "/>
+      <date-part name="day" prefix=" "/>
+    </date>
+  </macro>
+
+  <macro name="journal-article">
+    <group>
+      <text macro="author" suffix=". "/>
+      <text variable="title" suffix=". "/>
+      <text variable="container-title" form="short" suffix=". "/>
+      <text macro="issued-year-month"/>
+      <text variable="volume" prefix=";"/>
+      <text variable="issue" prefix="(" suffix=")"/>
+      <text variable="page" prefix=":"/>
+    </group>
+  </macro>
+
+  <macro name="book">
+    <group>
+      <text macro="author" suffix=". "/>
+      <text variable="title" suffix=". "/>
+      <text variable="edition" suffix=". "/>
+      <text variable="publisher-place"/>
+      <text variable="publisher" prefix=": " suffix="; "/>
+      <text macro="issued-year"/>
+    </group>
+  </macro>
+
+  <macro name="chapter">
+    <group>
+      <text macro="author" suffix=". "/>
+      <text variable="title" suffix=". En: "/>
+      <text macro="editor" suffix=". "/>
+      <text variable="container-title" suffix=". "/>
+      <text variable="publisher-place"/>
+      <text variable="publisher" prefix=": " suffix="; "/>
+      <text macro="issued-year"/>
+      <text variable="page" prefix=":"/>
+    </group>
+  </macro>
+
+  <macro name="thesis">
+    <group>
+      <text macro="author" suffix=". "/>
+      <text variable="title"/>
+      <text variable="genre" prefix=" [" suffix="]"/>
+      <text variable="publisher-place" prefix=". "/>
+      <text variable="publisher" prefix=": " suffix="; "/>
+      <text macro="issued-year"/>
+    </group>
+  </macro>
+
+  <macro name="webpage">
+    <group>
+      <text macro="author" suffix=". "/>
+      <text variable="title" suffix=" [Internet]. "/>
+      <text variable="publisher"/>
+      <text variable="publisher-place" prefix=". "/>
+      <text macro="issued-year" prefix="; "/>
+      <text macro="accessed" prefix=" [citado " suffix="]."/>
+      <text variable="URL" prefix=" Disponible en: "/>
+    </group>
+  </macro>
+
+  <citation collapse="citation-number">
+    <sort>
+      <key variable="citation-number"/>
+    </sort>
+    <layout prefix="(" suffix=")" delimiter=",">
+      <text variable="citation-number"/>
+    </layout>
+  </citation>
+
+  <bibliography et-al-min="7"
+                et-al-use-first="6"
+                entry-spacing="0"
+                line-spacing="1"
+                second-field-align="flush">
+    <layout suffix=".">
+      <text variable="citation-number" suffix=". "/>
+      <choose>
+        <if type="article-journal article-magazine article-newspaper" match="any">
+          <text macro="journal-article"/>
+        </if>
+        <else-if type="chapter paper-conference" match="any">
+          <text macro="chapter"/>
+        </else-if>
+        <else-if type="book report" match="any">
+          <text macro="book"/>
+        </else-if>
+        <else-if type="thesis">
+          <text macro="thesis"/>
+        </else-if>
+        <else-if type="webpage post post-weblog" match="any">
+          <text macro="webpage"/>
+        </else-if>
+        <else>
+          <text macro="book"/>
+        </else>
+      </choose>
+    </layout>
+  </bibliography>
+</style>
