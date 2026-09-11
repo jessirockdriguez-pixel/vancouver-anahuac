@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<style xmlns="http://purl.org/net/xbiblio/csl"
+       version="1.0"
+       class="in-text"
+       default-locale="es-ES"
+       page-range-format="minimal">
+  <info>
+    <title>Universidad Anáhuac México - FCS - Vancouver (Tesis)</title>
+    <id>http://www.zotero.org/styles/universidad-anahuac-mexico-fcs-vancouver-tesis</id>
+    <link href="http://www.zotero.org/styles/universidad-anahuac-mexico-fcs-vancouver-tesis" rel="self"/>
+    <category citation-format="numeric"/>
+    <category field="medicine"/>
+    <summary>Vancouver personalizado conforme al Manual de elaboración de Tesis de la Facultad de Ciencias de la Salud, Universidad Anáhuac México.</summary>
+    <updated>2026-09-10T18:30:00+00:00</updated>
+    <rights license="http://creativecommons.org/licenses/by-sa/3.0/">Este estilo puede modificarse y compartirse.</rights>
+  </info>
+
+  <locale xml:lang="es">
+    <terms>
+      <term name="and">y</term>
+      <!-- Sin punto aquí: el punto final lo añade el cierre del bloque de autores -->
+      <term name="et-al">et al</term>
+    </terms>
+  </locale>
+
+  <!-- AUTORES:
+       - Apellido + inicial(es), sin puntos.
+       - Hasta 6 autores: se muestran todos.
+       - 7 o más: primeros 6 + et al.
+       - "y" antes del último autor cuando son hasta 6. -->
+  <macro name="author">
+    <names variable="author">
+      <name form="long"
+            name-as-sort-order="all"
+            sort-separator=" "
+            initialize-with=""
+            delimiter=", "
+            and="text"
+            delimiter-precedes-last="never"
+            delimiter-precedes-et-al="always"
+            et-al-min="7"
+            et-al-use-first="6"/>
+      <substitute>
+        <names variable="editor"/>
+        <names variable="translator"/>
+        <text variable="title"/>
+      </substitute>
+    </names>
+  </macro>
+
+  <macro name="editor">
+    <names variable="editor">
+      <name form="long"
+            name-as-sort-order="all"
+            sort-separator=" "
+            initialize-with=""
+            delimiter=", "
+            and="text"
+            delimiter-precedes-last="never"
+            delimiter-precedes-et-al="always"
+            et-al-min="7"
+            et-al-use-first="6"/>
+      <label form="short" prefix=", "/>
+    </names>
+  </macro>
+
+  <!-- El mes se omite porque el manual lo señala como opcional. -->
+  <macro name="issued-year">
+    <date variable="issued">
+      <date-part name="year"/>
+    </date>
+  </macro>
+
+  <!-- ARTÍCULO:
+       Autores. Título. Abrev NLM de revista. Año;volumen(número):páginas.
+       El CSL solicita container-title short y elimina puntos internos.
+       La abreviatura exacta depende de los metadatos disponibles en Mendeley. -->
+  <macro name="journal-article">
+    <group>
+      <text macro="author" suffix=". "/>
+      <text variable="title" suffix=". "/>
+      <text variable="container-title" form="short" strip-periods="true" suffix=". "/>
+      <text macro="issued-year"/>
+      <text variable="volume" prefix=";"/>
+      <text variable="issue" prefix="(" suffix=")"/>
+      <text variable="page" prefix=":"/>
+    </group>
+  </macro>
+
+  <macro name="publisher-block">
+    <choose>
+      <if variable="publisher-place publisher" match="all">
+        <group delimiter=": ">
+          <text variable="publisher-place"/>
+          <text variable="publisher"/>
+        </group>
+      </if>
+      <else-if variable="publisher">
+        <text variable="publisher"/>
+      </else-if>
+      <else-if variable="publisher-place">
+        <text variable="publisher-place"/>
+      </else-if>
+    </choose>
+  </macro>
+
+  <macro name="book">
+    <group>
+      <text macro="author" suffix=". "/>
+      <text variable="title" suffix=". "/>
+      <text variable="edition" suffix=". "/>
+      <text macro="publisher-block"/>
+      <text macro="issued-year" prefix="; "/>
+    </group>
+  </macro>
+
+  <macro name="chapter">
+    <group>
+      <text macro="author" suffix=". "/>
+      <text variable="title" suffix=". En: "/>
+      <text macro="editor" suffix=". "/>
+      <text variable="container-title" suffix=". "/>
+      <text macro="publisher-block"/>
+      <text macro="issued-year" prefix="; "/>
+      <text variable="page" prefix=":"/>
+    </group>
+  </macro>
+
+  <macro name="thesis">
+    <group>
+      <text macro="author" suffix=". "/>
+      <text variable="title"/>
+      <text variable="genre" prefix=" [" suffix="]"/>
+      <text macro="publisher-block" prefix=". "/>
+      <text macro="issued-year" prefix="; "/>
+    </group>
+  </macro>
+
+  <macro name="accessed">
+    <date variable="accessed">
+      <date-part name="year"/>
+      <date-part name="month" form="numeric-leading-zeros" prefix="/"/>
+      <date-part name="day" form="numeric-leading-zeros" prefix="/"/>
+    </date>
+  </macro>
+
+  <!-- Datos electrónicos sólo para fuentes propiamente web. -->
+  <macro name="webpage">
+    <group>
+      <text macro="author" suffix=". "/>
+      <text variable="title" suffix=". "/>
+      <text variable="publisher"/>
+      <text macro="issued-year" prefix="; "/>
+      <text macro="accessed" prefix=" [citado " suffix="]."/>
+      <text variable="URL" prefix=" Disponible en: "/>
+    </group>
+  </macro>
+
+  <!-- CITAS EN TEXTO: (1), (2), (3) -->
+  <citation collapse="citation-number">
+    <sort>
+      <key variable="citation-number"/>
+    </sort>
+    <layout prefix="(" suffix=")" delimiter=",">
+      <text variable="citation-number"/>
+    </layout>
+  </citation>
+
+  <!-- BIBLIOGRAFÍA: numeración progresiva. -->
+  <bibliography et-al-min="7"
+                et-al-use-first="6"
+                entry-spacing="0"
+                line-spacing="1"
+                second-field-align="flush">
+    <layout suffix=".">
+      <text variable="citation-number" suffix=". "/>
+      <choose>
+        <if type="article-journal article-magazine article-newspaper" match="any">
+          <text macro="journal-article"/>
+        </if>
+        <else-if type="chapter paper-conference" match="any">
+          <text macro="chapter"/>
+        </else-if>
+        <else-if type="book report" match="any">
+          <text macro="book"/>
+        </else-if>
+        <else-if type="thesis">
+          <text macro="thesis"/>
+        </else-if>
+        <else-if type="webpage post post-weblog" match="any">
+          <text macro="webpage"/>
+        </else-if>
+        <else>
+          <text macro="book"/>
+        </else>
+      </choose>
+    </layout>
+  </bibliography>
+</style>
